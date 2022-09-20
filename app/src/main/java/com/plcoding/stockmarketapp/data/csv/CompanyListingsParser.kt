@@ -33,5 +33,6 @@ class CompanyListingsParser @Inject constructor() : CSVParser<CompanyListing> {
                     csvReader.close()
                 }
         }
+
     }
 }

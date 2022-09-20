@@ -25,6 +25,7 @@ class CompanyListingsViewModel @Inject constructor(
     fun onEvent(event: CompanyListingsEvent){
         when(event){
             is CompanyListingsEvent.Refresh ->{
+                state = state.copy(isRefreshing = true)
                 getCompanyListings(fetchFromRemote = true)
             }
             is CompanyListingsEvent.OnSearchQueryChange ->{
