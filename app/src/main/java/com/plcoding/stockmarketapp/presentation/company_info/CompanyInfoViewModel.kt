@@ -22,7 +22,7 @@ class CompanyInfoViewModel @Inject constructor(
     var state by mutableStateOf(CompanyInfoState())
 
     init{
-        viewModelScope.launch {
+        viewModelScope.launch{
             val symbol = savedStateHandle.get<String>("symbol") ?: return@launch
 
             state = state.copy(isLoading = true)
@@ -31,34 +31,32 @@ class CompanyInfoViewModel @Inject constructor(
 
             val intraDayInfoResult = async { repositoryI.getIntraDayInfo(symbol)}
 
-            when(val infoResult = companyInfoResult.await()){
+            when(val result = companyInfoResult.await()){
                 is Resource.Success -> {
-                    state.copy(company = infoResult.data,
+                    state.copy(company = result.data,
                                isLoading = false,
                                error = null)
 
                 }
                 is Resource.Error ->{
-                    state.copy(error = infoResult.message,
-                               isLoading = false,
+                    state.copy(isLoading = false,
+                               error = result.message,
                                company = null)
                 }
-                else -> Unit
             }
 
-            when(val intraResult = intraDayInfoResult.await()){
+            when(val result = intraDayInfoResult.await()){
                 is Resource.Success -> {
-                    state.copy(stockInfo = intraResult.data ?: emptyList(),
-                        isLoading = false,
-                        error = null)
+                    state.copy(stockInfo = result.data ?: emptyList(),
+                               isLoading = false,
+                               error = null)
 
                 }
                 is Resource.Error ->{
-                    state.copy(error = intraResult.message,
-                        isLoading = false,
-                        company = null)
+                    state.copy(isLoading = false,
+                               error = result.message,
+                               company = null)
                 }
-                else -> Unit
             }
         }
     }

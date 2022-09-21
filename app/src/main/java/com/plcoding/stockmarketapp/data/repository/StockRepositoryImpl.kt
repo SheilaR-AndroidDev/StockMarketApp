@@ -55,11 +55,11 @@ class StockRepositoryImpl @Inject constructor(
                 companyListingsParser.parse(response.byteStream())
             } catch (e: IOException) {
                 e.printStackTrace()
-                emit(Resource.Error(message = e.message.toString(), null))
+                emit(Resource.Error("Couldn't load data", null))
                 null
             } catch (e: HttpException) {
                 e.printStackTrace()
-                emit(Resource.Error(e.message.toString(), null))
+                emit(Resource.Error("Couldn't load data", null))
                 null
             }
 
@@ -82,41 +82,37 @@ class StockRepositoryImpl @Inject constructor(
 
     override suspend fun getIntraDayInfo(symbol: String): Resource<List<IntraDayInfo>> {
         return try{
-            val response = api.getIntraDayInfo(symbol = symbol)
+            val response = api.getIntraDayInfo(symbol)
             val results = intraDayInfoParser.parse(response.byteStream())
             Resource.Success(results)
 
         }catch (e: IOException){
             e.printStackTrace()
             Resource.Error(
-                "Couldn't load intraDay info",
-                null
+                "Couldn't load intraDay info"
             )
 
         }catch (e: HttpException){
             e.printStackTrace()
             Resource.Error(
-                "Couldn't load intraDay info",
-                null
+                "Couldn't load intraDay info"
             )
         }
     }
 
     override suspend fun getCompanyInfo(symbol: String): Resource<CompanyInfo> {
         return try{
-            val result = api.getCompanyInfo(symbol = symbol)
-            Resource.Success(result.toCompanyInfo())
+            val result = api.getCompanyInfo(symbol = symbol).toCompanyInfo()
+            Resource.Success(result)
         }catch (e: IOException){
         e.printStackTrace()
         Resource.Error(
-            "Couldn't load company info",
-            null
+            "Couldn't load company info"
         )
         }catch (e: HttpException){
             e.printStackTrace()
             Resource.Error(
-                "Couldn't load company info",
-                null
+                "Couldn't load company info"
             )
         }
     }

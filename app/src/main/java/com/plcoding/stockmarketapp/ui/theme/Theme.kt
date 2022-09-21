@@ -14,12 +14,6 @@ private val DarkColorPalette = darkColors(
     onBackground = TextWhite
 )
 
-private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
-)
-
 @Composable
 fun StockMarketAppTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
