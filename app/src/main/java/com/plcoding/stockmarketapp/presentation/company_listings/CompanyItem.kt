@@ -52,10 +52,3 @@ fun CompanyItem(
     }
 }
 
-/*
-@Preview
-@Composable
-fun PreviewDetailScreen(){
-    CompanyItem(company = CompanyListing("Tesla", "TES", "NASDAQ"))
-}*/
-
